@@ -10,7 +10,6 @@ export const signAccessToken = (user) =>
 
 export const verifyAccessToken = (token) => jwt.verify(token, config.jwt.accessSecret);
 
-// Refresh token berupa string acak (opaque), bukan JWT
 export const generateRefreshToken = () => crypto.randomBytes(48).toString('base64url');
 
 export const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex');

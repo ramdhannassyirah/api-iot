@@ -7,7 +7,6 @@ import { registerSchema, loginSchema, googleSchema, refreshSchema } from './auth
 
 const router = Router();
 
-// Batasi percobaan login/daftar per IP
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 30,

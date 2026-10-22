@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 const email = z.string().trim().toLowerCase().email('Email tidak valid');
-// bcrypt hanya memproses 72 byte pertama
 const password = z.string().min(8, 'Password minimal 8 karakter').max(72, 'Password maksimal 72 karakter');
 
 export const registerSchema = z.object({
