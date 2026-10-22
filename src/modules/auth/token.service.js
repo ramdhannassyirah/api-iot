@@ -4,7 +4,7 @@ import { config } from '../../config/index.js';
 
 export const signAccessToken = (user) =>
   jwt.sign({ role: user.role }, config.jwt.accessSecret, {
-    subject: user.id,
+    subject: String(user.id),
     expiresIn: config.jwt.accessExpiresIn,
   });
 
