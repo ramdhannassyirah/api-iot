@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
   res.json({
     name: 'Monitoring API',
     version: 'v1',
-    endpoints: ['/auth', '/awlr', '/aws', '/arr'],
   });
 });
 
