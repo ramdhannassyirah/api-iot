@@ -5,7 +5,26 @@ import { pool } from './pool.js';
 
 const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'migrations');
 
+const args = process.argv.slice(2);
+const fresh = args.includes('--fresh');
+const force = args.includes('--force');
+
+const dropAll = async () => {
+  // Pengaman: jangan sampai menghapus database produksi tanpa sengaja
+  if (process.env.NODE_ENV === 'production' && !force) {
+    throw new Error('migrate:fresh ditolak di production. Tambahkan --force kalau memang disengaja.');
+  }
+
+  console.log('Menghapus semua objek di schema public...');
+  await pool.query(`
+    DROP SCHEMA public CASCADE;
+    CREATE SCHEMA public;
+  `);
+};
+
 const run = async () => {
+  if (fresh) await dropAll();
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS schema_migrations (
       name text PRIMARY KEY,
@@ -29,7 +48,8 @@ const run = async () => {
       await client.query('COMMIT');
       console.log(`Migrasi diterapkan: ${file}`);
     } catch (err) {
-      await client.query('ROLLBACK');
+      await client.query('ROLLBACK').catch(() => {});
+      err.message = `Gagal di ${file}: ${err.message}`;
       throw err;
     } finally {
       client.release();

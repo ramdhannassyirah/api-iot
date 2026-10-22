@@ -1,5 +1,6 @@
 CREATE TABLE users (
-  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  id            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  public_id     uuid NOT NULL DEFAULT gen_random_uuid(),
   name          text NOT NULL,
   email         text NOT NULL UNIQUE,
   password_hash text,                       -- NULL untuk akun yang hanya login via Google
@@ -12,7 +13,7 @@ CREATE TABLE users (
 
 CREATE TABLE refresh_tokens (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id     uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   token_hash  text NOT NULL UNIQUE,         -- hanya hash yang disimpan
   expires_at  timestamptz NOT NULL,
   revoked_at  timestamptz,
