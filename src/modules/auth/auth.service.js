@@ -6,7 +6,6 @@ import * as tokens from './token.service.js';
 import { verifyGoogleIdToken } from './google.provider.js';
 
 const BCRYPT_ROUNDS = 12;
-// Dipakai agar waktu respons login tetap mirip meski email tidak ditemukan
 const DUMMY_HASH = bcrypt.hashSync('dummy-password', BCRYPT_ROUNDS);
 
 const issueTokens = async (user) => {
@@ -51,7 +50,6 @@ export const loginWithGoogle = async (idToken) => {
   if (!user) {
     const existing = await users.findByEmail(profile.email);
     if (existing) {
-      // Email sudah terdaftar (sudah diverifikasi Google) -> tautkan akun
       user = await users.linkGoogle(existing.id, profile.googleId, profile.avatarUrl);
     } else {
       user = await users.create({

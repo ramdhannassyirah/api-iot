@@ -1,7 +1,6 @@
 import { AppError } from '../../utils/AppError.js';
 import { verifyAccessToken } from './token.service.js';
 
-// Wajib login: membaca header "Authorization: Bearer <accessToken>"
 export const authenticate = (req, res, next) => {
   const [scheme, token] = (req.headers.authorization || '').split(' ');
   if (scheme !== 'Bearer' || !token) {

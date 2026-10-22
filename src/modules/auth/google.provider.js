@@ -4,7 +4,6 @@ import { AppError } from '../../utils/AppError.js';
 
 const client = new OAuth2Client(config.google.clientId);
 
-// Memverifikasi ID token yang didapat klien dari Google Sign-In
 export const verifyGoogleIdToken = async (idToken) => {
   if (!config.google.clientId) {
     throw new AppError(503, 'Login Google belum dikonfigurasi');

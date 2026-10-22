@@ -12,7 +12,6 @@ export const findByHash = async (tokenHash) => {
   return rows[0] || null;
 };
 
-// Atomik: hanya berhasil jika token belum pernah di-revoke
 export const revoke = async (id) => {
   const { rows } = await query(
     'UPDATE refresh_tokens SET revoked_at = now() WHERE id = $1 AND revoked_at IS NULL RETURNING id',
