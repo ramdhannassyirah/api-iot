@@ -13,6 +13,8 @@ export const toPublicMqtt = (mqtt) => ({
   updatedAt: mqtt.updated_at,
 });
 
+
+
 export const findAll = async () => {
   const { rows } = await query(
     `SELECT id, name, ip, port, pub, sub, username, created_at, updated_at
@@ -97,4 +99,9 @@ export const remove = async (id) => {
   );
 
   return rows[0] || null;
+};
+
+export const findAllIds = async () => {
+  const { rows } = await query(`SELECT id FROM ref_mqtt`);
+  return rows.map((r) => r.id);
 };

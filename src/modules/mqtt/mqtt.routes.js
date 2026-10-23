@@ -1,6 +1,6 @@
 
 import { Router } from 'express';
-import { validate } from '../../middlewares/validate.js';
+import { validate, validateParams } from '../../middlewares/validate.js';
 import { authenticate } from '../auth/auth.middleware.js';
 import * as controller from './mqtt.controller.js';
 import {
@@ -14,14 +14,17 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/', controller.index);
-router.get('/:id', validate(mqttIdSchema), controller.show);
+router.get('/:id', validateParams(mqttIdSchema), controller.show);
 router.post('/', validate(createMqttSchema), controller.create);
 router.patch(
   '/:id',
-  validate(mqttIdSchema),
+  validateParams(mqttIdSchema),
   validate(updateMqttSchema),
   controller.update,
 );
-router.delete('/:id', validate(mqttIdSchema), controller.remove);
+router.delete('/:id', validateParams(mqttIdSchema), controller.remove);
+
+router.get('/:id/status', validateParams(mqttIdSchema), controller.status);
+router.post('/:id/publish', validateParams(mqttIdSchema), controller.publish);
 
 export default router;

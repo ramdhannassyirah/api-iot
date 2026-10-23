@@ -31,5 +31,5 @@ export const updateMqttSchema = z
   );
 
 export const mqttIdSchema = z.object({
-  id: z.string().uuid('ID tidak valid'),
+  id: z.coerce.number().int('ID harus bilangan bulat').min(1, 'ID tidak valid'),
 });
