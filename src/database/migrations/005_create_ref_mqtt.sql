@@ -1,5 +1,6 @@
 CREATE TABLE ref_mqtt (
     id          INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name        TEXT,
     ip          TEXT NOT NULL,  -- bisa IP atau hostname broker
     port        INTEGER NOT NULL DEFAULT 1883,
     pub         TEXT,
